@@ -16,7 +16,7 @@ final class Ad
     private ?int $gardenSize = null;
     private ?int $score = null;
     private ?DateTimeImmutable $irrelevantSince = null;
-
+	
 	public function __construct(int $id, String $typology, String $description,array $pictures,int $houseSize, ?int $gardenSize, ?int $score, ?DateTimeImmutable $irrelevantSince)
 	{
 		$this->id = $id;

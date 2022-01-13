@@ -11,6 +11,7 @@ final class InFileSystemPersistence
 {
     private array $ads = [];
     private array $pictures = [];
+    private static InFileSystemPersistence $repository;
 
     public function __construct()
     {
@@ -31,6 +32,16 @@ final class InFileSystemPersistence
         array_push($this->pictures, new Picture(6, 'https://www.idealista.com/pictures/6', 'SD'));
         array_push($this->pictures, new Picture(7, 'https://www.idealista.com/pictures/7', 'SD'));
         array_push($this->pictures, new Picture(8, 'https://www.idealista.com/pictures/8', 'HD'));
+    }
+
+
+    public static function getRepository()
+    {
+        if(!isset(self::$repository)) 
+        {
+            self::$repository = new InFileSystemPersistence();
+        }
+        return self::$repository;
     }
 
     /**
