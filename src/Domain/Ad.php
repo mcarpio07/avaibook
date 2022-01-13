@@ -29,6 +29,11 @@ final class Ad
 		$this->irrelevantSince = $irrelevantSince;
 	}
 
+	public function calculateScore()
+    {
+		
+    }
+
 	/**
 	 * Get the value of id
 	 */ 

@@ -32,6 +32,43 @@ final class InFileSystemPersistence
         array_push($this->pictures, new Picture(6, 'https://www.idealista.com/pictures/6', 'SD'));
         array_push($this->pictures, new Picture(7, 'https://www.idealista.com/pictures/7', 'SD'));
         array_push($this->pictures, new Picture(8, 'https://www.idealista.com/pictures/8', 'HD'));
+
+        $this->assignRandomImages();
+    }
+
+    /**
+     * @brief Asignamos a cada anuncio un numero aleatorio de imagenes dentro de las creadas
+     */
+    private function assignRandomImages(){
+        foreach($this->ads as $ad){
+            $numImages = rand(0,count($this->pictures)-1);
+            $this->assignNumImages($numImages,$ad);
+        }
+    }
+
+    /**
+     * @brief Asignar tantas un numero determinado de imagenes a un anuncio
+     */
+    private function assignNumImages(int $numImages, Ad $ad)
+    {
+        $images = [];
+        for($numImages;$numImages>0;$numImages--){  
+            $idImage = rand(reset($this->pictures)->getId(),end($this->pictures)->getId());
+            $image = $this->searchImageForId($idImage);
+            if(!empty($image)) array_push($images,$image);
+        }
+        $ad->setPictures($images);
+    }
+
+    /**
+     * @brief Busca una imagen por id
+     */
+    private function searchImageForId(int $idImage): ?Picture
+    {
+        foreach($this->pictures as $image){
+            if($image->getId()==$idImage) return $image;
+        }
+        return null;
     }
 
 
