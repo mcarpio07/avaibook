@@ -28,8 +28,6 @@ class SignInController extends AbstractController
 
         return new Response($sesion->get('user_rol'),Response::HTTP_UNAUTHORIZED); 
 
-
-        
     }
 
     /**
@@ -43,4 +41,5 @@ class SignInController extends AbstractController
 
         return new Response($sesion->get('user_rol'),Response::HTTP_OK);
     }
+
 }

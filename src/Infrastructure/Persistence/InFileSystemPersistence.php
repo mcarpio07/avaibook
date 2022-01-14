@@ -69,12 +69,14 @@ final class InFileSystemPersistence
     /**
      * @brief Simula un unlogin
      */
-    public function unlogin()
+    public function unlogin(): String
     {
         $this->session = new Session();
         $this->session->start();
         $this->session->set('user_rol',Rol::Desconected);
+        return Rol::Desconected;
     }
+
 
     /**
      * @brief Asignamos a cada anuncio un numero aleatorio de imagenes dentro de las creadas

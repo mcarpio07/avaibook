@@ -10,7 +10,7 @@ class SystemPersistenceTest extends TestCase
     /** @test */
     public function loadDataTest(): void
     {
-        $repository = new InFileSystemPersistence();
+        $repository = InFileSystemPersistence::getRepository();
         $this->assertTrue(count($repository->getAds()) > 0 AND count($repository->getPictures()) > 0 );
     }
 }
