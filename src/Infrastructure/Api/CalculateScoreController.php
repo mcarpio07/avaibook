@@ -6,6 +6,7 @@ namespace App\Infrastructure\Api;
 
 use App\Infrastructure\Persistence\InFileSystemPersistence;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class CalculateScoreController
@@ -16,7 +17,10 @@ final class CalculateScoreController
     public function __invoke(): JsonResponse
     {
         $repository = InFileSystemPersistence::getRepository();
-        //dump($repository->getAds());
+        //dump($repository->getUsers());
+
+        $sesion = $repository->getSession();
+        var_dump($sesion->get('user_rol'));
 
         return new JsonResponse([]);
     }

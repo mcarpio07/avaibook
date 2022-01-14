@@ -6,12 +6,24 @@ namespace App\Infrastructure\Persistence;
 
 use App\Domain\Ad;
 use App\Domain\Picture;
+use App\Domain\User;
+use Symfony\Component\HttpFoundation\Session\Session;
 
+abstract class Rol
+{
+    const Admin = "ADMIN";
+    const User = "USER";
+    const Desconected = "DESCONECTED";
+    // etc.
+}
 final class InFileSystemPersistence
+
 {
     private array $ads = [];
     private array $pictures = [];
+    private array $users = [];
     private static InFileSystemPersistence $repository;
+    private Session $session;
 
     public function __construct()
     {
@@ -33,7 +45,35 @@ final class InFileSystemPersistence
         array_push($this->pictures, new Picture(7, 'https://www.idealista.com/pictures/7', 'SD'));
         array_push($this->pictures, new Picture(8, 'https://www.idealista.com/pictures/8', 'HD'));
 
+        array_push($this->users, new User(1, Rol::Admin,'root','root'));
+        array_push($this->users, new User(2, Rol::User,'user1','user1'));
+        array_push($this->users, new User(3, Rol::User,'user2','user2'));
+        array_push($this->users, new User(4, Rol::User,'user3','user3'));
+
+        $this->session = new Session();
+
         $this->assignRandomImages();
+    }
+
+    /**
+     * @brief Simula un login a partir de un usuario y una contraseña
+     */
+    public function login(String $username, String $pass): ?User
+    {
+        foreach($this->users as $user){
+            if(strcmp($user->getUsername(),$username)==0 AND strcmp($user->getPassword(),$pass)==0) return $user;
+        }
+        return null;
+    }
+
+    /**
+     * @brief Simula un unlogin
+     */
+    public function unlogin()
+    {
+        $this->session = new Session();
+        $this->session->start();
+        $this->session->set('user_rol',Rol::Desconected);
     }
 
     /**
@@ -119,5 +159,33 @@ final class InFileSystemPersistence
         $this->pictures = $pictures;
 
         return $this;
+    }
+
+    /**
+     * Get the value of users
+     */ 
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Set the value of users
+     *
+     * @return  self
+     */ 
+    public function setUsers($users)
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of session
+     */ 
+    public function getSession()
+    {
+        return $this->session;
     }
 }
