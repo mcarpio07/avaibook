@@ -19,6 +19,15 @@ final class Picture
     }
 
     /**
+     * Informa sobre si una determinada imagen es HD o no
+     */ 
+    public function isHd()
+    {
+        return strcmp($this->quality,'HD')==0 ? true : false;
+    }
+
+
+    /**
      * Get the value of id
      */ 
     public function getId()

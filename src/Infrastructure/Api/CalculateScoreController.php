@@ -21,9 +21,18 @@ final class CalculateScoreController
         $repository = InFileSystemPersistence::getRepository();
         $utils = new Utils();
         if($utils->isAdmin()){
-
+            $ads = $repository->getAds();
+            foreach($ads as $ad){
+                $ad->calculateScore();
+            }
             return new JsonResponse([],201);
         }else{
+            $ads = $repository->getAds();
+            foreach($ads as $ad){
+                $ad->calculateScore();
+            }
+
+            dump($ads);
             return new JsonResponse([],403);
         }
         //dump($repository->getUsers());
