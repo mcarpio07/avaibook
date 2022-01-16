@@ -94,13 +94,15 @@ final class Ad
 
         //Palabras clave
         foreach(Ad::KEY_WORDS as $word){
-            echo stripos($this->description, $word);
             if(stripos($this->description, $word) !== FALSE) $score += Ad::PUNTUACION_5;
         }
 
         //Score en intervalo [0-100]
         if($score > Ad::MAX_SCORE) $score = Ad::MAX_SCORE;
-        elseif($score < Ad::MIN_SCORE) $score = Ad::MIN_SCORE;
+        elseif($score <= Ad::MIN_SCORE){
+            $this->irrelevantSince = new DateTimeImmutable();
+            $score = Ad::MIN_SCORE;
+        }
 
         $this->score = $score;		
     }

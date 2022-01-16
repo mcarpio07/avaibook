@@ -16,6 +16,12 @@ abstract class Rol
     const Desconected = "DESCONECTED";
     // etc.
 }
+abstract class MensajeScore
+{
+    const OK = "Puntuaciones asignadas con éxito";
+    const UNAUTHORIZED = "No tiene permiso para realizar esta acción";
+    // etc.
+}
 final class InFileSystemPersistence
 
 {
@@ -52,7 +58,7 @@ final class InFileSystemPersistence
 
         $this->session = new Session();
 
-        $this->assignRandomImages();
+        $this->assignImages();
     }
 
     /**
@@ -75,6 +81,22 @@ final class InFileSystemPersistence
         $this->session->start();
         $this->session->set('user_rol',Rol::Desconected);
         return Rol::Desconected;
+    }
+
+    /**
+     * @brief Asignamos a cada anuncio un numero aleatorio de imagenes dentro de las creadas
+     */
+    private function assignImages(){
+        foreach($this->ads as $ad){
+            $Idimages = $ad->getPictures();
+            $images = [];
+            foreach($Idimages as  $id){
+                $image = $this->searchImageForId($id);
+                if($image != null)$images[] = $image;
+            }
+            $ad->setPictures($images);
+            
+        }
     }
 
 

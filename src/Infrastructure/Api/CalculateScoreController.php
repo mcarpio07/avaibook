@@ -6,9 +6,9 @@ namespace App\Infrastructure\Api;
 
 use App\Controller\Utils;
 use App\Infrastructure\Persistence\InFileSystemPersistence;
-use App\Infrastructure\Persistence\Rol;
+use App\Infrastructure\Persistence\MensajeScore;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class CalculateScoreController
@@ -16,7 +16,7 @@ final class CalculateScoreController
     /**
      * @Route("/calculateScore", name="calculate_score")
      */
-    public function __invoke(): JsonResponse
+    public function __invoke(): Response
     {
         $repository = InFileSystemPersistence::getRepository();
         $utils = new Utils();
@@ -25,20 +25,28 @@ final class CalculateScoreController
             foreach($ads as $ad){
                 $ad->calculateScore();
             }
-            return new JsonResponse([],201);
+            $utils->orderAd();
+            return new Response(MensajeScore::OK,Response::HTTP_ACCEPTED);
+            
         }else{
-            $ads = $repository->getAds();
-            foreach($ads as $ad){
-                $ad->calculateScore();
-            }
-
-            dump($ads);
-            return new JsonResponse([],403);
+            return new Response(MensajeScore::UNAUTHORIZED,Response::HTTP_UNAUTHORIZED);
         }
-        //dump($repository->getUsers());
-
         
     }
+
+
+    /**
+     * Función creada para solventar el problema de gestionar los datos en memoria y no en una BBDD y simular que la puntuación se ha asignado
+     */
+    public function Auxscore(){
+        $repository = InFileSystemPersistence::getRepository();
+        $utils = new Utils();
+        $ads = $repository->getAds();
+        foreach($ads as $ad) $ad->calculateScore();
+        $utils->orderAd();
+
+    }
+
 
     
 }
