@@ -29,7 +29,7 @@ final class AveragePortalController
        
         if($utils->isAdmin()){
             $average = $utils->averagePortal();
-            return new JsonResponse(['averagePortal'=>$average],Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['averagePortal'=>$average],Response::HTTP_OK);
         }
 
         return new JsonResponse(MensajeScore::UNAUTHORIZED,Response::HTTP_UNAUTHORIZED);

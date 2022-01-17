@@ -28,10 +28,10 @@ final class InFileSystemPersistence
     private array $ads = [];
     private array $pictures = [];
     private array $users = [];
-    private static InFileSystemPersistence $repository;
+    private static $repository;
     private Session $session;
 
-    public function __construct()
+    private function __construct()
     {
         array_push($this->ads, new Ad(1, 'CHALET', 'Este piso es una ganga, compra, compra, COMPRA!!!!!', [], 300, null, null, null));
         array_push($this->ads, new Ad(2, 'FLAT', 'Nuevo atico céntrico recién reformado. No deje pasar la oportunidad y adquiera este ático de lujo', [4], 300, null, null, null));
@@ -59,6 +59,9 @@ final class InFileSystemPersistence
         $this->session = new Session();
 
         $this->assignImages();
+        //$this->assignRandomImages();
+
+
     }
 
     /**
@@ -135,13 +138,15 @@ final class InFileSystemPersistence
         return null;
     }
 
+    private function __clone() { }
+
 
     public static function getRepository()
     {
-        if(!isset(self::$repository)) 
-        {
+        if (is_null(self::$repository)) {
             self::$repository = new InFileSystemPersistence();
         }
+
         return self::$repository;
     }
 

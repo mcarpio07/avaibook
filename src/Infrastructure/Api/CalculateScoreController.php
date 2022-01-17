@@ -25,6 +25,7 @@ final class CalculateScoreController
             foreach($ads as $ad){
                 $ad->calculateScore();
             }
+            $repository->setAds($ads);
             $utils->orderAd();
             return new Response(MensajeScore::OK,Response::HTTP_ACCEPTED);
             
